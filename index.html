@@ -1,537 +1,807 @@
 ---
 layout: null
 ---
-
-
+  
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="content-language" content="en">
+    <meta name="robots" content="index, follow">
+    <meta name="rating" content="RTA-5042-1996-1400-1577-RTA">
     
-    <script>
-    (function() {
-        var hostname = location.hostname;
-        var parts = hostname.split(".");
-        var fullName = parts[0];
-        if (fullName.toLowerCase() === "www") fullName = parts[1] || fullName;
-        var formatText = function(str) {
-            return str.replace(/[-_]/g, " ").replace(/\+/g, " ").replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-        };
-        var displayDomain = formatText(fullName);
-        document.title = displayDomain + " - Stunning Photo Collection";
-        var metaDesc = document.querySelector("meta[name=\"description\"]") || document.createElement("meta");
-        metaDesc.name = "description";
-        metaDesc.content = displayDomain + " - Discover breathtaking photography collections.";
-        if (!metaDesc.parentNode) document.head.appendChild(metaDesc);
-        var canonical = document.querySelector("link[rel=\"canonical\"]") || document.createElement("link");
-        canonical.setAttribute("rel", "canonical");
-        canonical.setAttribute("href", location.href);
-        if (!canonical.parentNode) document.head.appendChild(canonical);
-        var schemaData = {"@context":"https://schema.org","@type":"WebSite","name":displayDomain,"description":"Beautiful photo gallery","url":location.origin};
-        var schemaScript = document.createElement("script");
-        schemaScript.type = "application/ld+json";
-        schemaScript.textContent = JSON.stringify(schemaData);
-        document.head.appendChild(schemaScript);
-    })();
-    </script>
-
-    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-
+    <!-- CANONICAL DINAMIS (Full URL saat ini) -->
+    <link rel="canonical" href="" id="dynamic-canonical">
+    
+    <title id="dynamic-title">MAISON ARCHIVE | Private Collection | Haute Couture</title>
+    <meta id="dynamic-description" name="description" content="Maison Archive. Private collection of rare and exclusive fashion editorials. By appointment only.">
+    
     <style>
-        /* ===== RESET & BASE ===== */
-        *,*::before,*::after{box-sizing:border-box}
-        html{overflow-x:hidden;background:#0a0a0f;scroll-behavior:smooth}
-        body{
-            width:100%;min-width:320px;max-width:100%;margin:0;padding:0;
-            background:#0a0a0f;font-family:'Segoe UI',-apple-system,BlinkMacSystemFont,Roboto,sans-serif;
-            color:#e0e0e0;line-height:1.4;-webkit-font-smoothing:antialiased;
+        /* ========== GLOBAL COLOR SYSTEM ========== */
+        :root {
+            /* Background & Base */
+            --bg-body: #faf7f2;
+            --bg-header: #ffffff;
+            --bg-card: #ffffff;
+            --bg-note: #fefcf8;
+            
+            /* Text Colors */
+            --text-primary: #2c2418;
+            --text-secondary: #6a6358;
+            --text-muted: #b8ac9c;
+            
+            /* Accent & Borders */
+            --accent-gold: #c9b28b;
+            --accent-gold-dark: #9b7b5c;
+            --border-light: #e8dfd3;
+            --border-card: #ece4d8;
+            
+            /* Spacing */
+            --container-width: 1300px;
+            --card-padding: 28px;
         }
-
-        /* ===== TOP BAR ===== */
-        .topbar{
-            width:100%;position:fixed;top:0;left:0;z-index:1000;
-            background:rgba(10,10,15,.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-            border-bottom:1px solid rgba(245,158,11,.1);
-            padding:10px 16px;display:flex;align-items:center;gap:12px;
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            line-height: 1.5;
         }
-        .topbar-avatar{flex-shrink:0;line-height:0}
-        .topbar-avatar svg{width:30px;height:30px}
-        .topbar-title{
-            flex:1;font-size:15px;font-weight:700;color:#fff;letter-spacing:.3px;
-            white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+        
+        /* Luxury Header */
+        .luxury-header {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border-light);
+            padding: 32px 0;
+            position: relative;
         }
-        .topbar-menu{
-            width:38px;height:38px;flex-shrink:0;
-            background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);
-            cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;
-            border-radius:50%;transition:all .2s;
+        
+        .luxury-container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 40px;
         }
-        .topbar-menu:active{background:rgba(245,158,11,.2);transform:scale(.94)}
-        .topbar-menu svg{width:20px;height:20px;stroke:#f59e0b;fill:none;stroke-width:2;stroke-linecap:round}
-
-        .slide-panel{
-            display:none;position:fixed;top:50px;right:10px;z-index:999;
-            background:#1a1a20;border:1px solid rgba(245,158,11,.15);border-radius:14px;padding:6px;
-            min-width:200px;box-shadow:0 12px 40px rgba(0,0,0,.7);
+        
+        .logo {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            color: var(--accent-gold-dark);
+            margin-bottom: 16px;
         }
-        .slide-panel.open{display:block}
-        .slide-panel ul{list-style:none;margin:0;padding:0}
-        .slide-panel li+li{border-top:1px solid rgba(255,255,255,.03)}
-        .slide-panel a{
-            display:block;padding:13px 16px;color:#bbb;text-decoration:none;
-            font-size:14px;font-weight:500;border-radius:10px;transition:all .15s;
+        
+        .logo-main {
+            font-size: 2.2rem;
+            letter-spacing: 8px;
+            font-weight: 300;
+            color: var(--text-primary);
         }
-        .slide-panel a:active{background:rgba(245,158,11,.1);color:#f59e0b}
-
-        /* ===== DESKTOP NAV ===== */
-        .desktop-nav{display:none}
-
-        /* ===== AD CONTAINER ===== */
-        .ad-box{
-            display:flex;justify-content:center;align-items:center;
-            margin:0 auto;max-width:100%;overflow:hidden;
-            background:#111118;min-height:50px;border-radius:8px;
+        
+        .logo-tagline {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            margin-top: 8px;
         }
-        .ad-box ins{max-width:100%}
-        .ad-desktop{display:none}
-        .ad-mobile{display:flex}
-        .ad-both{display:flex}
-
-        .ad-banner-full{
-            padding:14px 8px;background:#111118;margin:0;
-            border-top:1px solid rgba(245,158,11,.06);
-            border-bottom:1px solid rgba(245,158,11,.06);
+        
+        /* Gold Accent */
+        .gold-line {
+            width: 60px;
+            height: 1px;
+            background: var(--accent-gold);
+            margin: 20px auto;
         }
-        .ad-banner-full:first-child{margin-top:50px}
-
-        .ad-native{padding:8px 0;background:transparent}
-
-        /* ===== MAIN CONTENT ===== */
-        .main-content{width:100%;max-width:1200px;margin:0 auto;padding:0}
-
-        /* ===== HERO (16:9) ===== */
-        .hero-section{margin:0}
-        .hero-card{
-            position:relative;overflow:hidden;border-radius:0;
-            background:#111;margin:0;
-            aspect-ratio:16/9;
+        
+        main { 
+            max-width: var(--container-width); 
+            margin: 0 auto; 
+            padding: 48px 40px 80px;
         }
-        .hero-card a{display:block;width:100%;height:100%}
-        .hero-card img{
-            width:100%;height:100%;object-fit:cover;display:block;
-            transition:transform .5s ease;
+        
+        .container {
+            background: transparent;
+            padding: 0;
         }
-        .hero-card:hover img{transform:scale(1.02)}
-        .hero-overlay{
-            position:absolute;bottom:0;left:0;right:0;
-            padding:40px 16px 16px;
-            background:linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(0,0,0,.4) 50%, transparent 100%);
-            pointer-events:none;
+        
+        /* Typography - Elegant */
+        h1 { 
+            font-size: 2.5rem; 
+            font-weight: 300; 
+            line-height: 1.2;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
         }
-        .hero-overlay h2{
-            margin:0 0 4px;font-size:22px;font-weight:800;color:#fff;line-height:1.2;
-            display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+        
+        h2 { 
+            font-size: 1.1rem; 
+            font-weight: 400; 
+            margin: 56px 0 24px 0;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--accent-gold-dark);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 12px;
         }
-        .hero-badge{
-            display:inline-block;padding:3px 8px;margin-bottom:6px;
-            background:#f59e0b;color:#000;font-size:10px;font-weight:700;
-            border-radius:3px;text-transform:uppercase;letter-spacing:.5px;
+        
+        h3 { 
+            font-size: 0.9rem; 
+            font-weight: 500; 
+            margin: 20px 0 12px 0;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-primary);
+            letter-spacing: 1px;
         }
-
-        /* ===== SECTION HEADER ===== */
-        .section-header{
-            display:flex;align-items:center;gap:10px;padding:20px 12px 8px;
-            max-width:1200px;margin:0 auto;
+        
+        /* Links - Subtle Elegance */
+        a { 
+            color: var(--accent-gold-dark); 
+            text-decoration: none;
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.2s;
+            font-weight: 300;
         }
-        .section-header h2{
-            margin:0;font-size:17px;font-weight:800;color:#fff;
-            display:flex;align-items:center;gap:8px;
+        
+        a:hover { 
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
         }
-        .section-header h2 .icon-dot{
-            width:8px;height:8px;border-radius:50%;background:#f59e0b;
-            display:inline-block;flex-shrink:0;
+        
+        /* Breadcrumb */
+        .breadcrumb { 
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #c8bcac;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-light);
+            font-family: 'Montserrat', sans-serif;
+            text-transform: uppercase;
         }
-
-        /* ===== HORIZONTAL SCROLL (3:4 portrait) ===== */
-        .scroll-section{padding:0 0 0 12px}
-        .scroll-row{
-            display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;
-            -webkit-overflow-scrolling:touch;padding-bottom:8px;
-            scrollbar-width:none;
+        
+        .breadcrumb a { color: var(--accent-gold-dark); border-bottom: none; }
+        
+        /* Grid Layouts */
+        .grid-2, .grid-3, .grid-4 {
+            display: grid;
+            gap: 32px;
+            margin: 32px 0;
         }
-        .scroll-row::-webkit-scrollbar{display:none}
-        .scroll-card{
-            flex:0 0 180px;scroll-snap-align:start;
-            position:relative;overflow:hidden;border-radius:10px;
-            background:#15151a;transition:all .2s;
-            aspect-ratio:3/4;
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        @media (max-width: 1024px) { .grid-3, .grid-4 { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+        
+        /* Card */
+        .lookbook-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            padding: var(--card-padding);
+            transition: all 0.3s;
+            position: relative;
         }
-        .scroll-card:active{transform:scale(.98)}
-        .scroll-card a{display:block;width:100%;height:100%}
-        .scroll-card img{
-            width:100%;height:100%;object-fit:cover;display:block;
-            transition:transform .4s ease;
+        
+        .lookbook-card::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 20px;
+            height: 20px;
+            border-top: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
         }
-        .scroll-card-body{
-            position:absolute;bottom:0;left:0;right:0;
-            padding:20px 10px 8px;
-            background:linear-gradient(to top, rgba(0,0,0,.88) 0%, transparent 100%);
-            pointer-events:none;
+        
+        .lookbook-card:hover {
+            border-color: var(--accent-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.05);
         }
-        .scroll-card-body h3{
-            margin:0 0 2px;font-size:12px;font-weight:700;color:#fff;
-            display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+        
+        .collection-tag {
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 12px;
         }
-
-        /* ===== GRID (1:1 square) ===== */
-        .grid-section{padding:0 8px}
-        .grid-masonry{
-            display:grid;grid-template-columns:1fr 1fr;gap:6px;
-            max-width:1200px;margin:0 auto;
+        
+        /* Stats */
+        .collection-stats {
+            display: flex;
+            gap: 48px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            padding: 32px 0;
+            border-top: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--border-light);
         }
-        .grid-card{
-            position:relative;overflow:hidden;border-radius:8px;
-            background:#111118;transition:all .2s;
-            aspect-ratio:1/1;
+        
+        .stat {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
         }
-        .grid-card:active{transform:scale(.98)}
-        .grid-card a{display:block;width:100%;height:100%}
-        .grid-card img{
-            width:100%;height:100%;object-fit:cover;display:block;
-            transition:transform .4s ease;
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+            color: var(--accent-gold);
+            display: block;
+            line-height: 1;
         }
-        .grid-card-overlay{
-            position:absolute;bottom:0;left:0;right:0;
-            padding:20px 8px 8px;
-            background:linear-gradient(to top, rgba(0,0,0,.85) 0%, transparent 100%);
-            pointer-events:none;
+        
+        .stat-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-top: 8px;
         }
-        .grid-card-overlay h3{
-            margin:0 0 2px;font-size:11px;font-weight:700;color:#fff;
-            display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+        
+        .curator-note {
+            margin: 40px 0;
+            padding: 32px 40px;
+            background: var(--bg-note);
+            border-left: 3px solid var(--accent-gold);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: #5c5348;
         }
-        .grid-card-overlay span{
-            font-size:8px;color:rgba(255,255,255,.4);display:block;margin-top:1px;
+        
+        .collection-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 24px 0;
         }
-
-        /* Iklan native di dalam grid */
-        .ad-native-card{
-            background:transparent;border-radius:8px;
-            display:flex;justify-content:center;align-items:center;
-            min-height:120px;aspect-ratio:1/1;
+        
+        .collection-tag-item {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            padding: 6px 18px;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s;
         }
-
-        /* ===== EMPTY STATE ===== */
-        .empty-section{
-            text-align:center;padding:60px 16px;
+        
+        .collection-tag-item a {
+            border-bottom: none;
+            color: #9b8a74;
         }
-        .empty-section p{
-            color:rgba(255,255,255,.3);font-size:14px;margin:0;
+        
+        .collection-tag-item:hover {
+            border-color: var(--accent-gold);
+            background: var(--bg-note);
         }
-
-        /* ============================
-           TABLET (min-width:600px)
-           ============================ */
-        @media(min-width:600px){
-            .ad-desktop{display:flex}
-            .ad-mobile{display:none}
-            .ad-both{display:flex}
-
-            .topbar{padding:12px 20px}
-            .topbar-title{font-size:16px}
-            .ad-banner-full:first-child{margin-top:54px}
-            .ad-banner-full{padding:16px 12px}
-            .hero-overlay{padding:50px 24px 20px}
-            .hero-overlay h2{font-size:28px}
-            .section-header{padding:24px 16px 10px}
-            .section-header h2{font-size:20px}
-            .scroll-card{flex:0 0 200px}
-            .scroll-card-body h3{font-size:13px}
-            .grid-masonry{grid-template-columns:repeat(3,1fr);gap:8px}
-            .grid-card{border-radius:10px}
-            .grid-card-overlay h3{font-size:13px}
-            .grid-card-overlay span{font-size:10px}
+        
+        .collection-chronology {
+            margin: 32px 0;
         }
-
-        /* ============================
-           DESKTOP (min-width:900px)
-           ============================ */
-        @media(min-width:900px){
-            body{max-width:1400px;margin:0 auto}
-            .topbar{
-                left:50%;transform:translateX(-50%);max-width:1400px;
-                padding:12px 24px;
+        
+        .chrono-entry {
+            display: flex;
+            gap: 28px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .chrono-season {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--accent-gold);
+            min-width: 100px;
+        }
+        
+        .atelier-note {
+            margin: 28px 0;
+            padding: 24px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        
+        .atelier-question {
+            font-weight: 500;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            letter-spacing: 0.3px;
+        }
+        
+        .atelier-answer {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        hr { 
+            border: none; 
+            border-top: 1px solid var(--border-light); 
+            margin: 56px 0; 
+        }
+        
+        .hidden { display: none; }
+        .query-placeholder { font-weight: 400; background: var(--bg-body); padding: 2px 8px; font-style: italic; color: var(--accent-gold); }
+        .default-content.active { display: block; }
+        .default-content { display: none; }
+        #query-content { display: none; }
+        
+        .private-badge {
+            display: inline-block;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            padding: 4px 12px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+        
+        /* Style untuk header area query: h1 dan badge dalam satu baris */
+        .query-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .query-header h1 {
+            margin-bottom: 0;
+            flex: 1;
+        }
+        .query-header .private-badge {
+            margin-bottom: 0;
+            margin-left: 20px;
+            white-space: nowrap;
+        }
+        @media (max-width: 768px) {
+            .query-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
             }
-            .topbar-title{font-size:14px;font-weight:600;color:#ccc}
-            .topbar-menu{display:none}
-            .slide-panel{display:none!important}
-            .ad-banner-full:first-child{margin-top:56px}
-            .ad-banner-full{padding:18px 16px}
-
-            .hero-overlay{padding:60px 32px 24px}
-            .hero-overlay h2{font-size:36px}
-            .section-header{padding:28px 20px 12px}
-            .scroll-card{flex:0 0 220px}
-            .scroll-card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,.5)}
-            .scroll-card:hover img{transform:scale(1.06)}
-            .scroll-card-body h3{font-size:14px}
-            .grid-masonry{grid-template-columns:repeat(4,1fr);gap:10px}
-            .grid-card{border-radius:12px}
-            .grid-card:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.4)}
-            .grid-card:hover img{transform:scale(1.04)}
-            .grid-card-overlay h3{font-size:14px}
-            .grid-card-overlay span{font-size:10px}
-
-            .desktop-nav{
-                display:flex;gap:2px;padding:0 20px;max-width:1400px;margin:0 auto 6px;
+            .query-header .private-badge {
+                margin-left: 0;
             }
-            .desktop-nav a{
-                padding:7px 14px;color:#999;text-decoration:none;font-size:12px;font-weight:500;
-                border-radius:6px;transition:all .15s;
-            }
-            .desktop-nav a:hover{color:#f59e0b;background:rgba(245,158,11,.06)}
         }
-
-        @media(min-width:1100px){
-            .scroll-card{flex:0 0 240px}
-            .grid-masonry{grid-template-columns:repeat(5,1fr)}
+        
+        .by-appointment {
+            font-size: 0.65rem;
+            color: #c8bcac;
+            text-align: center;
+            margin-top: 40px;
+            letter-spacing: 1px;
+        }
+        
+        @media (max-width: 768px) {
+            main { padding: 32px 24px; }
+            h1 { font-size: 1.8rem; }
+            .curator-note { padding: 24px; }
+            .chrono-entry { flex-direction: column; gap: 8px; }
         }
     </style>
-    
+
 {% include head.html %}
-{% include verif.html %}
+<script>
+    // Set Canonical URL Dinamis (Full URL, mendukung multi-subdomain & query)
+    document.addEventListener('DOMContentLoaded', function() {
+        const canonicalLink = document.getElementById('dynamic-canonical');
+        if (canonicalLink) {
+            canonicalLink.href = window.location.href;
+        }
+    });
+</script>
+
+<meta name="juicyads-site-verification" content="5d7d8ae29382796e422fa5643ebfba84">
 
 </head>
-<body>
-
-    <!-- TOPBAR -->
-    <header class="topbar">
-        <div id="domainAvatar" class="topbar-avatar"></div>
-        <span id="blogMainTitle" class="topbar-title"></span>
-        <button class="topbar-menu" id="blogMenuToggle" aria-label="Menu">
-            <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-            <svg viewBox="0 0 24 24" style="display:none"><path d="M6 6l12 12M6 18l12-12"/></svg>
-        </button>
-    </header>
-
-    <!-- SLIDE PANEL -->
-    <nav id="blogMenuPanel" class="slide-panel">
-        <ul>
-            <li><a href="/">✦ Home</a></li>
-            <li><a href="/contact/">✉ Contact</a></li>
-            <li><a href="/privacy-policy/">🔒 Privacy</a></li>
-            <li><a href="/terms-and-conditions/">📋 Terms</a></li>
-        </ul>
-    </nav>
-
-    <script>
-    (function(){
-        var host = window.location.hostname.split(".");
-        var sub = host[0];
-        if (sub.toLowerCase() === "www") sub = host[1] || "";
-        var clean = sub.replace(/-/g, " ");
-        document.getElementById("blogMainTitle").textContent = clean.replace(/\b\w/g, function(c) { return c.toUpperCase(); });
-    })();
-    (function(){
-        var btn = document.getElementById("blogMenuToggle");
-        var panel = document.getElementById("blogMenuPanel");
-        var mi = btn.querySelector("svg:first-child");
-        var ci = btn.querySelector("svg:last-child");
-        btn.addEventListener("click", function(e){
-            e.stopPropagation();
-            var open = panel.classList.toggle("open");
-            mi.style.display = open ? "none" : "block";
-            ci.style.display = open ? "block" : "none";
-        });
-        document.addEventListener("click", function(e){
-            if(!panel.contains(e.target) && !btn.contains(e.target)){
-                panel.classList.remove("open");
-                mi.style.display = "block";ci.style.display = "none";
-            }
-        });
-        panel.addEventListener("click", function(e){e.stopPropagation();});
-    })();
-    </script>
-
-    <!-- AVATAR -->
+<body><div loading="lazy">
+<nav>
+{% include /kw/p/catalog.html %}
+</nav>
+    <div class="luxury-header">
+        <div class="luxury-container">
+            <div class="logo">
+                <div class="logo-main">MAISON ARCHIVE</div>
+                <div class="gold-line"></div>
+                <div class="logo-tagline">PRIVATE COLLECTION • HAUTE COUTURE</div>
+            </div>
+        </div>
+    </div>
+    
+    <main>
+        <div class="container">
+            <!-- DEFAULT CONTENT - MAISON LOBBY -->
+            <div id="default-content" class="default-content active">
+                <div class="private-badge">BY APPOINTMENT ONLY</div>
+                <h1>The Private Collection<br>Rare & Exclusive Editorials</h1>
+                <p style="font-size: 0.95rem; color: var(--text-secondary); margin: 16px 0 24px 0; max-width: 650px;">A curated archive of rare fashion editorials, private collections, and exclusive visual narratives. Established in the tradition of haute couture.</p>
+                
+                <div class="collection-stats">
+                    <div class="stat"><span class="stat-number">15,247</span><span class="stat-label">ARCHIVED PIECES</span></div>
+                    <div class="stat"><span class="stat-number">3,892</span><span class="stat-label">MOVING IMAGES</span></div>
+                    <div class="stat"><span class="stat-number">9,456</span><span class="stat-label">EDITORIALS</span></div>
+                    <div class="stat"><span class="stat-number">1,899</span><span class="stat-label">ARCHIVAL DOCS</span></div>
+                </div>
+                
+                <div class="curator-note">
+                    "Each piece in this collection tells a story — of a moment captured, a narrative preserved, a vision realized. What you will find here exists outside the commercial sphere, preserved for those who understand the art of curation."
+                    <div style="margin-top: 16px; font-size: 0.8rem; font-family: 'Montserrat', sans-serif;">— The Curatorial Department</div>
+                </div>
+                
+                <!-- COLLECTION ROOMS -->
+                <h2>THE COLLECTION ROOMS</h2>
+                <div class="grid-3">
+                    <div class="lookbook-card">
+                        <div class="collection-tag">ROOM I</div>
+                        <h3>Visual Archive</h3>
+                        <p style="font-size:0.8rem; color:var(--text-secondary);">Photographic editorials • Rare prints • Limited editions</p>
+                        <div style="margin-top: 16px;"><a href="/record/?q=visual archive">VIEW COLLECTION →</a></div>
+                    </div>
+                    <div class="lookbook-card">
+                        <div class="collection-tag">ROOM II</div>
+                        <h3>Moving Image Gallery</h3>
+                        <p style="font-size:0.8rem; color:var(--text-secondary);">Film editorials • Time-based works • Screen tests</p>
+                        <div style="margin-top: 16px;"><a href="/record/?q=moving image gallery">VIEW COLLECTION →</a></div>
+                    </div>
+                    <div class="lookbook-card">
+                        <div class="collection-tag">ROOM III</div>
+                        <h3>Archive Library</h3>
+                        <p style="font-size:0.8rem; color:var(--text-secondary);">Personal records • Historical documents • Provenance</p>
+                        <div style="margin-top: 16px;"><a href="/record/?q=archive library">VIEW COLLECTION →</a></div>
+                    </div>
+                </div>
+                
+                <!-- SPECIAL COLLECTIONS -->
+                <h2>SPECIAL COLLECTIONS</h2>
+                <div class="collection-tags">
+                    <div class="collection-tag-item"><a href="/record/?q=private collection">PRIVATE COLLECTION</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=rare editorials">RARE EDITORIALS</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=limited edition">LIMITED EDITION</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=archival pieces">ARCHIVAL PIECES</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=master copies">MASTER COPIES</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=uncut series">UNCUT SERIES</a></div>
+                </div>
+                
+                <!-- PLATFORM ARCHIVES -->
+                <h2>DIGITAL PLATFORM ARCHIVES</h2>
+                <div class="collection-tags">
+                    <div class="collection-tag-item"><a href="/record/?q=instagram archive">INSTAGRAM</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=twitter archive">TWITTER</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=tiktok archive">TIKTOK</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=facebook archive">FACEBOOK</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=discord archive">DISCORD</a></div>
+                    <div class="collection-tag-item"><a href="/record/?q=telegram archive">TELEGRAM</a></div>
+                </div>
+                
+                <hr>
+                
+                <div class="curator-note" style="text-align: center;">
+                    <span style="font-size:0.8rem;">INQUIRIES BY APPOINTMENT</span><br>
+                    <span style="font-size:0.7rem;">Enter a name to access the private collection</span>
+                </div>
+                
+                <div class="by-appointment">
+                    MAISON ARCHIVE • ESTABLISHED 2019 • ALL RIGHTS RESERVED
+                </div>
+            </div>
+            
+            <!-- QUERY-BASED CONTENT - PRIVATE COLLECTION ENTRY -->
+            <div id="query-content" style="display: none;">
+                <div class="breadcrumb">
+                    <a href="/">MAISON</a> / <a href="/record/">PRIVATE COLLECTION</a> / <span id="breadcrumb-name"></span>
+                </div>
+                
+                <!-- HEADER AREA: H1 PALING ATAS, BADGE DI SAMPING (TIDAK MENG HALANGI H1) -->
+                <div class="query-header">
+                    <h1 id="main-heading"></h1>
+                    <div class="private-badge" id="collection-badge">PRIVATE COLLECTION</div>
+                </div>
+                <p id="collection-id" style="font-size: 0.7rem; color: var(--text-muted); margin-bottom: 24px; letter-spacing: 1px;"></p>
+                
+                <!-- COLLECTION METRICS -->
+                <div class="collection-stats" id="collection-metrics"></div>
+                
+                <!-- CURATOR'S STATEMENT -->
+                <div class="curator-note" id="curator-statement"></div>
+                
+                <!-- COLLECTION ROOMS - AUTO GENERATED LINKS -->
+                <h2 id="rooms-heading">COLLECTION ROOMS</h2>
+                <div id="collection-rooms" class="grid-2"></div>
+                
+                <!-- PLATFORM ARCHIVES - AUTO GENERATED -->
+                <h2 id="digital-heading">DIGITAL ARCHIVES</h2>
+                <div id="digital-archives" class="collection-tags"></div>
+                
+                <!-- RELATED COLLECTIONS - AUTO GENERATED -->
+                <h2 id="related-heading">RELATED COLLECTIONS</h2>
+                <div id="related-collections" class="collection-tags"></div>
+                
+                <!-- COLLECTION CHRONOLOGY - AUTO GENERATED -->
+                <h2 id="chrono-heading">COLLECTION CHRONOLOGY</h2>
+                <div id="collection-chronology" class="collection-chronology"></div>
+                
+                <!-- ATELIER NOTES (FAQ) - AUTO GENERATED -->
+                <h2 id="atelier-heading">ATELIER NOTES</h2>
+                <div id="atelier-notes"></div>
+                
+                <hr />
+                <center>{% include /ads/gobloggugel/nanouturfs.html %}</center>  
+                
+                <div class="by-appointment">
+                    <span id="collection-credit"></span> • PRIVATE COLLECTION • BY APPOINTMENT ONLY
+                </div>
+            </div>
+        </div>
+    </main>
+    
     <script>
     (function() {
-        var hostname = window.location.hostname;
-        var parts = hostname.split(".");
-        var fullName = parts[0];
-        if (fullName.toLowerCase() === "www") fullName = parts[1] || fullName;
-        function h(s) {var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return Math.abs(h);}
-        var dh = h(fullName);
-        var clean = fullName.replace(/-/g," ");
-        var w = clean.split(" "), init = "";
-        for (var i=0;i<Math.min(w.length,3);i++){if(w[i].length>0)init+=w[i].charAt(0).toUpperCase();}
-        if(init.length<2)init=fullName.substring(0,3).toUpperCase();
-        document.getElementById("domainAvatar").innerHTML = "<svg width=\"30\" height=\"30\" viewBox=\"0 0 30 30\"><rect width=\"30\" height=\"30\" rx=\"8\" fill=\"#f59e0b\"/><text x=\"15\" y=\"20\" text-anchor=\"middle\" fill=\"#000\" font-size=\"12\" font-weight=\"bold\" font-family=\"sans-serif\">"+init+"</text></svg>";
+        const urlParams = new URLSearchParams(window.location.search);
+        let query = urlParams.get('q');
+        
+        if (!query) {
+            document.getElementById('default-content').classList.add('active');
+            return;
+        }
+        
+        document.getElementById('default-content').classList.remove('active');
+        document.getElementById('default-content').style.display = 'none';
+        document.getElementById('query-content').style.display = 'block';
+        
+        query = decodeURIComponent(query.replace(/\+/g, ' '));
+        
+        // ============================================
+        // FUNGSI UTAMA: MENDAPATKAN IDENTITAS SUBDOMAIN/DOMAIN UNTUK TITLE & HEADING
+        // ============================================
+        function getSubdomainOrDomain() {
+            const hostname = window.location.hostname; // contoh: "sub-domain.fazri.my" atau "fazri.my" atau "acak-sub.pages.dev"
+            
+            // Pisahkan berdasarkan titik
+            const parts = hostname.split('.');
+            
+            // Jika hanya 1 bagian (localhost/ip) atau 2 bagian (domain.tld tanpa subdomain)
+            if (parts.length <= 2) {
+                // Ambil potongan pertama (domain level 1)
+                // Misal "fazri.my" -> ambil "fazri"
+                let mainPart = parts[0];
+                // Kapitalisasi huruf pertama
+                return mainPart.charAt(0).toUpperCase() + mainPart.slice(1).toLowerCase();
+            } 
+            
+            // Jika lebih dari 2 bagian, ambil subdomainnya (bagian pertama)
+            // Contoh: "sub-domain.fazri.my" -> ambil "sub-domain"
+            // Contoh: "acak-sub.pages.dev" -> ambil "acak-sub"
+            let subdomain = parts[0];
+            // Ubah tanda hubung menjadi spasi, lalu kapital setiap kata
+            let formatted = subdomain.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            ).join(' ');
+            
+            return formatted;
+        }
+        
+        const siteIdentity = getSubdomainOrDomain(); // "Sub Domain", "Fazri", "Acak Sub", dll.
+        
+        // Format display name dari query (kapitalisasi normal)
+        function getDisplayName(q) {
+            const removeTerms = ['collection', 'archive', 'gallery', 'library', 'room', 'series', 'editorial'];
+            let name = q.toLowerCase();
+            removeTerms.forEach(term => {
+                name = name.replace(new RegExp('\\s*' + term + '\\s*$', 'i'), '');
+                name = name.replace(new RegExp('^' + term + '\\s*', 'i'), '');
+            });
+            return name.trim().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || q;
+        }
+        
+        const rawDisplayName = getDisplayName(query);
+        // Kapitalisasi query untuk keperluan judul
+        const queryCapitalized = rawDisplayName;
+        
+        // === PEMBENTUKAN TITLE, H1, H2, H3 YANG MENGANDUNG QUERY + SUBDOMAIN/DOMAIN ===
+        // Format konsisten: "Query on [Site Identity]"
+        const titleText = `${queryCapitalized} on ${siteIdentity} | Maison Archive`;
+        const h1Text = `${queryCapitalized}<br><span style="font-size:0.85rem; font-weight:300;">Private Collection on ${siteIdentity}</span>`;
+        
+        // Breadcrumb tetap menggunakan query lowercase (tidak berubah)
+        const breadcrumbName = queryCapitalized.toLowerCase().replace(/ /g, '-');
+        
+        // Collection Code random
+        const collectionCode = `${queryCapitalized.substring(0, 3).toUpperCase()}${Math.floor(Math.random() * 900 + 100)}`;
+        
+        // Update <title>
+        document.title = titleText;
+        
+        // Update meta description (masih mengandung query & site identity)
+        document.getElementById('dynamic-description').setAttribute('content', 
+            `Private collection: ${queryCapitalized} on ${siteIdentity}. Rare editorials, archival pieces, and exclusive works. Maison Archive.`);
+        
+        // Breadcrumb
+        document.getElementById('breadcrumb-name').textContent = breadcrumbName;
+        
+        // Collection badge (opsional, tidak menghalangi H1 karena sudah di samping)
+        document.getElementById('collection-badge').innerHTML = `PRIVATE COLLECTION • ${queryCapitalized.toUpperCase()}`;
+        
+        // MAIN HEADING (H1) - paling atas, tanpa penghalang
+        document.getElementById('main-heading').innerHTML = h1Text;
+        
+        // Collection ID (tidak perlu diubah)
+        document.getElementById('collection-id').innerHTML = `COLLECTION NO. ${collectionCode} • ACQUIRED ${new Date().getFullYear()} • ARCHIVAL STATUS: PERMANENT`;
+        
+        // === UPDATE SEMUA <h2> DAN <h3> DINAMIS AGAR MENGANDUNG QUERY ===
+        // (hanya jika di dalam query-content, tidak mengganggu default content)
+        
+        // Heading H2 yang sudah ada di HTML (diganti teksnya)
+        const roomsHeading = document.getElementById('rooms-heading');
+        if (roomsHeading) roomsHeading.innerHTML = `${queryCapitalized} COLLECTION ROOMS`;
+        
+        const digitalHeading = document.getElementById('digital-heading');
+        if (digitalHeading) digitalHeading.innerHTML = `${queryCapitalized} DIGITAL ARCHIVES`;
+        
+        const relatedHeading = document.getElementById('related-heading');
+        if (relatedHeading) relatedHeading.innerHTML = `RELATED TO ${queryCapitalized.toUpperCase()}`;
+        
+        const chronoHeading = document.getElementById('chrono-heading');
+        if (chronoHeading) chronoHeading.innerHTML = `${queryCapitalized} CHRONOLOGY`;
+        
+        const atelierHeading = document.getElementById('atelier-heading');
+        if (atelierHeading) atelierHeading.innerHTML = `${queryCapitalized} ATELIER NOTES`;
+        
+        // Random counts untuk konten (tetap seperti sebelumnya)
+        const editorialCount = Math.floor(Math.random() * 600) + 200;
+        const filmCount = Math.floor(Math.random() * 120) + 30;
+        const printCount = Math.floor(Math.random() * 500) + 150;
+        const documentCount = Math.floor(Math.random() * 70) + 15;
+        
+        // Collection metrics
+        document.getElementById('collection-metrics').innerHTML = `
+            <div class="stat"><span class="stat-number">${editorialCount}</span><span class="stat-label">EDITORIALS</span></div>
+            <div class="stat"><span class="stat-number">${filmCount}</span><span class="stat-label">FILM WORKS</span></div>
+            <div class="stat"><span class="stat-number">${printCount}</span><span class="stat-label">PRINT ARCHIVE</span></div>
+            <div class="stat"><span class="stat-number">${documentCount}</span><span class="stat-label">ARCHIVAL DOCS</span></div>
+        `;
+        
+        // Curator statement (mengandung queryCapitalized)
+        const curatorStatements = [
+            `"The ${queryCapitalized} collection represents a significant acquisition for Maison Archive. Each piece has been carefully selected and preserved according to archival standards." — Senior Curator`,
+            `"This private collection documents a unique moment in visual culture. The ${queryCapitalized} archive on ${siteIdentity} is preserved for those who appreciate the art of curation." — Curatorial Department`,
+            `"What you see here has been meticulously archived. The ${queryCapitalized} collection reflects our commitment to preserving rare and significant works." — Archives Division`
+        ];
+        document.getElementById('curator-statement').innerHTML = curatorStatements[Math.floor(Math.random() * curatorStatements.length)];
+        
+        // 1. COLLECTION ROOMS (dengan queryCapitalized di link)
+        const collectionRooms = [
+            { label: "PRINT EDITORIALS", query: "print editorials", count: editorialCount, room: "Room I" },
+            { label: "FILM ARCHIVE", query: "film archive", count: filmCount, room: "Room II" },
+            { label: "ARCHIVAL LIBRARY", query: "archival library", count: documentCount, room: "Room III" },
+            { label: "RARE EDITIONS", query: "rare editions", count: Math.floor(Math.random() * 50) + 15, room: "Private Vault" },
+            { label: "MASTER COPIES", query: "master copies", count: Math.floor(Math.random() * 25) + 5, room: "Master Collection" },
+            { label: "LIMITED SERIES", query: "limited series", count: Math.floor(Math.random() * 40) + 10, room: "Special Edition" }
+        ];
+        
+        document.getElementById('collection-rooms').innerHTML = collectionRooms.map(room => `
+            <div class="lookbook-card">
+                <div class="collection-tag">${room.room}</div>
+                <h3>${room.label}</h3>
+                <p style="font-size:0.75rem; color:var(--text-secondary);">${room.count} pieces • Archival quality</p>
+                <div style="margin-top: 16px;"><a href="/record/?q=${encodeURIComponent(queryCapitalized + ' ' + room.query)}">VIEW COLLECTION →</a></div>
+            </div>
+        `).join('');
+        
+        // 2. DIGITAL ARCHIVES
+        const platforms = ['Instagram', 'Twitter', 'TikTok', 'Facebook', 'Discord', 'Telegram', 'Snapchat', 'YouTube'];
+        
+        document.getElementById('digital-archives').innerHTML = platforms.map(p => `
+            <div class="collection-tag-item"><a href="/record/?q=${encodeURIComponent(queryCapitalized + ' ' + p.toLowerCase() + ' archive')}">${p.toUpperCase()} ARCHIVE</a></div>
+        `).join('');
+        
+        // 3. RELATED COLLECTIONS
+        const relatedCollections = [
+            'complete works', 'full collection', 'master archive', 'definitive edition',
+            'rare pieces', 'archival set', 'limited run', 'curated selection'
+        ];
+        
+        document.getElementById('related-collections').innerHTML = relatedCollections.map(rel => `
+            <div class="collection-tag-item"><a href="/record/?q=${encodeURIComponent(queryCapitalized + ' ' + rel)}">${rel.toUpperCase()}</a></div>
+        `).join('');
+        
+        // 4. COLLECTION CHRONOLOGY
+        const chronologyEntries = [
+            { season: "2019", event: `Initial acquisition of ${queryCapitalized} works began` },
+            { season: "2021", event: `Digital archive established and cataloged on ${siteIdentity}` },
+            { season: "2023", event: `Complete ${queryCapitalized} collection verified` },
+            { season: "2024", event: `Private collection opened to qualified inquiries` },
+            { season: "Present", event: `Ongoing preservation and cataloging` }
+        ];
+        
+        document.getElementById('collection-chronology').innerHTML = chronologyEntries.map(entry => `
+            <div class="chrono-entry">
+                <div class="chrono-season">${entry.season}</div>
+                <div class="chrono-desc">${entry.event}</div>
+            </div>
+        `).join('');
+        
+        // 5. ATELIER NOTES (FAQ) - mengandung queryCapitalized
+        const atelierNotes = [
+            { q: `What is the provenance of the ${queryCapitalized} collection?`, 
+              a: `Acquired from private sources and verified for authenticity. Each piece includes documented provenance. `,
+              links: ['provenance records', 'acquisition history'] },
+            { q: `Is this the complete ${queryCapitalized} archive?`, 
+              a: `Yes. This represents the complete collection of ${editorialCount + filmCount + printCount + documentCount} verified pieces. `,
+              links: ['complete works', 'full collection'] },
+            { q: `How is the collection preserved?`, 
+              a: `Climate-controlled archival storage. Digital preservation with multiple redundancies. Regular condition assessments. `,
+              links: ['preservation methods', 'archival standards'] },
+            { q: `Can new pieces be added to the ${queryCapitalized} collection?`, 
+              a: `The collection continues to grow as new works become available for acquisition. `,
+              links: ['new acquisitions', 'collection updates'] }
+        ];
+        
+        document.getElementById('atelier-notes').innerHTML = atelierNotes.map(note => {
+            const linkHtml = note.links.map(link => 
+                `<a href="/record/?q=${encodeURIComponent(queryCapitalized + ' ' + link)}" style="font-size:0.7rem;">${link}</a>`
+            ).join(' • ');
+            return `
+                <div class="atelier-note">
+                    <div class="atelier-question">${note.q}</div>
+                    <div class="atelier-answer">${note.a}</div>
+                    ${linkHtml ? `<div style="margin-top: 12px; font-size:0.65rem; color:#c8bcac;">RELATED: ${linkHtml}</div>` : ''}
+                </div>
+            `;
+        }).join('');
+        
+        // 6. COLLECTION CREDIT
+        document.getElementById('collection-credit').innerHTML = `${queryCapitalized} Collection on ${siteIdentity} • ${editorialCount + filmCount + printCount + documentCount} Total Pieces • Maison Archive Permanent Collection`;
+        
+        // EXTRA: RELATED PRIVATE COLLECTIONS (ARTISTS)
+        const relatedArtists = [
+            'Kendall Jenner', 'Hailey Bieber', 'Gigi Hadid', 'Bella Hadid',
+            'Emma Watson', 'Scarlett Johansson', 'Zendaya', 'Margot Robbie'
+        ].filter(name => !queryCapitalized.toLowerCase().includes(name.toLowerCase())).slice(0, 8);
+        
+        const chronologyDiv = document.getElementById('collection-chronology');
+        if (chronologyDiv) {
+            let artistsHtml = `
+                <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-light);">
+                    <div style="font-size:0.7rem; color:var(--accent-gold); margin-bottom: 16px; letter-spacing: 1px;">RELATED PRIVATE COLLECTIONS</div>
+                    <div class="collection-tags" style="margin-top: 0;">
+                        ${relatedArtists.map(artist => `<div class="collection-tag-item"><a href="/record/?q=${encodeURIComponent(artist)}">${artist.toUpperCase()} COLLECTION</a></div>`).join('')}
+                    </div>
+                </div>
+            `;
+            chronologyDiv.innerHTML += artistsHtml;
+        }
+        
+        // Add collection note to curator statement
+        const curatorDiv = document.getElementById('curator-statement');
+        if (curatorDiv) {
+            curatorDiv.innerHTML += `
+                <div style="margin-top: 18px; font-size:0.7rem; color:var(--text-muted);">
+                    ✦ Archival Reference: ${collectionCode} ✦
+                </div>
+            `;
+        }
+        
     })();
     </script>
+    
+    <br />
+    
 
-    <!-- BANNER 06: TOP -->
-    <div class="ad-banner-full">
-        <div class="ad-box ad-desktop">{% include /ads/banner/06.html %}</div>
-        <div class="ad-box ad-mobile">{% include /ads/banner/04.html %}</div>
-    </div>
-
-    <!-- DESKTOP NAV -->
-    <nav class="desktop-nav">
-        <a href="/">Home</a>
-        <a href="/contact/">Contact</a>
-        <a href="/privacy-policy/">Privacy</a>
-        <a href="/terms-and-conditions/">Terms</a>
-    </nav>
-
-    <!-- ==========================================
-        AMBIL 50 POSTINGAN KATEGORI "indo02"
-        ========================================== -->
-    {% assign all_posts = site.categories['indo02'] | slice: 0, 50 %}
-
-    <!-- MAIN CONTENT -->
-    <div class="main-content">
-
-        {% if all_posts.size > 0 %}
-
-        <!-- ========== HERO: POST 0 (16:9) ========== -->
-        {% assign hero_post = all_posts | first %}
-        <section class="hero-section">
-            <article class="hero-card">
-                <a href="{{ hero_post.url }}">
-                    {% if hero_post.image %}
-                        <img src="{{ hero_post.image | relative_url }}" alt="{{ hero_post.title }}" loading="eager">
-                    {% endif %}
-                    <div class="hero-overlay">
-                        <span class="hero-badge">Featured</span>
-                        <h2>{{ hero_post.title }}</h2>
-                        {% assign hero_desc = hero_post.content | split: '<p>' | first %}
-                        <div class="spo">{{ hero_desc }}</div>
-                    </div>
-                </a>
-            </article>
-        </section>
-
-        <!-- BANNER 01 -->
-        <div class="ad-banner-full">
-            <div class="ad-box ad-desktop">{% include /ads/banner/01.html %}</div>
-            <div class="ad-box ad-mobile">{% include /ads/banner/04.html %}</div>
-        </div>
-
-        <!-- ========== TRENDING NOW: POST 1-10 (3:4 portrait scroll) ========== -->
-        {% assign trending = all_posts | slice: 1, 10 %}
-        {% if trending.size > 0 %}
-        <div class="section-header">
-            <h2><span class="icon-dot"></span> Trending Now</h2>
-        </div>
-        <section class="scroll-section">
-            <div class="scroll-row">
-                {% for post in trending %}
-                <article class="scroll-card">
-                    <a href="{{ post.url }}">
-                        {% if post.image %}
-                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-                        {% endif %}
-                        <div class="scroll-card-body">
-                            <h3>{{ post.title }}</h3>
-                            {% assign scroll_desc = post.content | split: '<p>' | first %}
-                            <div class="spo">{{ scroll_desc }}</div>
-                        </div>
-                    </a>
-                </article>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
-
-        <!-- BANNER 02 -->
-        <div class="ad-native" style="padding:0 12px;">
-            <div class="ad-box ad-both">{% include /ads/banner/02.html %}</div>
-        </div>
-
-        <!-- ========== LATEST: POST 11-30 (1:1 square grid) ========== -->
-        {% assign latest = all_posts | slice: 11, 20 %}
-        {% if latest.size > 0 %}
-        <div class="section-header">
-            <h2><span class="icon-dot"></span> Latest</h2>
-        </div>
-        <section class="grid-section">
-            <div class="grid-masonry">
-                {% for post in latest %}
-                    {% assign ad_pos = forloop.index %}
-                    <article class="grid-card">
-                        <a href="{{ post.url }}">
-                            {% if post.image %}
-                                <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-                            {% endif %}
-                            <div class="grid-card-overlay">
-                                <h3>{{ post.title }}</h3>
-                                {% assign grid_desc = post.content | split: '<p>' | first %}
-                                <div class="spo">{{ grid_desc }}</div>
-                                <span>{{ post.date | date: "%b %d, %Y" }}</span>
-                            </div>
-                        </a>
-                    </article>
-                    {% assign mod = ad_pos | modulo: 5 %}
-                    {% if mod == 0 %}
-                    <div class="ad-native-card">
-                        <div class="ad-box ad-both">{% include /ads/banner/03.html %}</div>
-                    </div>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
-
-        <!-- BANNER 08 -->
-        <div class="ad-banner-full">
-            <div class="ad-box ad-both">{% include /ads/banner/08.html %}</div>
-        </div>
-
-        <!-- ========== YOU MAY LIKE: POST 31-49 (3:4 portrait scroll) ========== -->
-        {% assign more = all_posts | slice: 31, 19 %}
-        {% if more.size > 0 %}
-        <div class="section-header">
-            <h2><span class="icon-dot"></span> You May Like</h2>
-        </div>
-        <section class="scroll-section">
-            <div class="scroll-row">
-                {% for post in more %}
-                <article class="scroll-card">
-                    <a href="{{ post.url }}">
-                        {% if post.image %}
-                            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
-                        {% endif %}
-                        <div class="scroll-card-body">
-                            <h3>{{ post.title }}</h3>
-                            {% assign more_desc = post.content | split: '<p>' | first %}
-                            <div class="spo">{{ more_desc }}</div>
-                        </div>
-                    </a>
-                </article>
-                {% endfor %}
-            </div>
-        </section>
-        {% endif %}
-
-        {% else %}
-        <div class="empty-section" style="margin-top:60px;">
-            <p>🚫 No posts found in category <strong>indo02</strong></p>
-        </div>
-        {% endif %}
-
-    </div>
-
-    <!-- BANNER 07: BOTTOM -->
-    <div class="ad-banner-full">
-        <div class="ad-box ad-desktop">{% include /ads/banner/07.html %}</div>
-        <div class="ad-box ad-mobile">{% include /ads/banner/04.html %}</div>
-    </div>
-
-    {% include /ads/gobloggugel/sosmed.html %}
+{% include /ads/gobloggugel/sosmed.html %}
     {% include footer.html %}
 
-</body>
+
+</div></body>
 </html>
-    
